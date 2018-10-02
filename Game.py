@@ -5,4 +5,4 @@ class Game:
 
     def __init__(self, name, beaten):
         self.name = name
-        self.beaten = beatenn
+        self.beaten = beaten

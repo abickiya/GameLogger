@@ -1,6 +1,6 @@
 """ This program will run the logger """
 
-import Game
+from Game import Game
 import sys
 
 
@@ -14,8 +14,28 @@ def main_loop():
             print("Invalid entry, please try again...\n")
         else:
             break;
-    #Run rest of loop
+    game_manager()
+    print("Goodbye!")
+
+
+def game_manager():
     game_list = []
+    while True:
+        print("Would you like to add a game?\nType \"y\" for yes and \"n\" for no\n")
+        status = input()
+        if status == "n":
+            break
+        elif status == "y":
+            game_list = add_game( game_list )
+        else:
+            print("Invalid entry, please try again...\n")
+
+
+def add_game( game_list ):
+    g_name = input("Enter game name\n")
+    new_game = Game( g_name, False)
+    game_list.append( new_game )
+    return game_list
 
 
 main_loop()
