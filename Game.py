@@ -3,6 +3,12 @@
 
 class Game:
 
-    def __init__(self, name, beaten):
+    def __init__(self, name, status):
         self.name = name
-        self.beaten = beaten
+        self.status = status
+
+    def get_name(self):
+        return self.name
+
+    def get_status(self):
+        return self.status
