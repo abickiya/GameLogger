@@ -12,3 +12,9 @@ class Game:
 
     def get_status(self):
         return self.status
+
+    def set_name(self, new_name):
+        self.name = new_name
+
+    def set_status(self, new_status):
+        self.status = new_status

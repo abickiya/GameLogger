@@ -23,12 +23,16 @@ def main_menu():
     game_list = game_manager(game_list)
     while True:
         print("\nMAIN MENU\nType \"p\" to see print options")
-        print("Type \"a\" to add more games to the list\nType \"q\" to quit\n")
+        print("Type \"a\" to add more games to the list\nType \"e\" to edit\nType \"d\" to delete\nType \"q\" to quit\n")
         status = input()
         if status == "p":
             print_games(game_list)
         elif status == "a":
             game_list = game_manager(game_list)
+        elif status == "e":
+            game_list = edit_menu(game_list)
+        elif status == "d":
+            game_list = delete_menu(game_list)
         elif status == "q":
             break
 
@@ -85,6 +89,47 @@ def finish_status():
             return False
         else:
             print("Invalid input please try again")
+
+
+def edit_menu( game_list ):
+    found = False
+    status = input("Enter the name of the game you want to edit")
+    for i in range(len(game_list)):
+        if game_list[i].name == status:
+            found = True
+            position = i
+            break
+    if not found:
+        print("Game not found, returning to MAIN MENU")
+    else:
+        print("Game found\n" + game_list[position].get_name)
+        g_name = input("\nEnter game name\n")
+        g_status = finish_status()
+        game_list[position].set_name(g_name)
+        game_list[position].set_status(g_status)
+        print("Game data changed\n" + game_list[position].get_name)
+        print("Returning to MAIN MENU")
+        return game_list
+
+
+def delete_menu( game_list ):
+    Found = False
+    status = input("Enter the name of the game you want to delete")
+    for i in range(len(game_list)):
+        if game_list[i].name == status:
+            found = True
+            position = i
+            break
+    if not found:
+        print("Game not found, returning to MAIN MENU")
+    else:
+        print("Game found\n" + game_list[position].get_name)
+        game_list.pop(position)
+        print("Game deleted")
+        print("Returning to MAIN MENU")
+        return game_list
+
+
 
 
 
