@@ -5,27 +5,19 @@ import sys
 
 
 def main_loop():
-    print("Welcome the the Game Logger!\n\nWould you like to import a saved log?\n"
-          "Type \"y\" for yes and \"n\" for no\n")
-    while True:
-        status = input()
-        if status == "n":
-            sys.exit()
-        if status == "y":
-            break
-        else:
-            print("Invalid entry, please try again...")
+    """ The main loop that starts the program, only real job is to greet user and start menu"""
+    print("\nWelcome the the Game Logger!\n\n")
     main_menu()
     print("\nGoodbye!")
 
 
 def main_menu():
-    game_list = []
-    game_list = game_manager(game_list)
+    """ Main Menu where user can access all of program's functions"""
+    game_list = load_file()
     while True:
         print("\nMAIN MENU\nType \"p\" to see print options")
-        print("Type \"a\" to add more games to the list\nType \"e\" to edit\n"
-              "Type \"d\" to delete\nType \"q\" to quit\n")
+        print("Type \"a\" to add games to the list\nType \"e\" to edit\n"
+              "Type \"d\" to delete\nType \"s\" to save to a file\nType \"q\" to quit\n")
         status = input()
         if status == "p":
             print_games(game_list)
@@ -35,11 +27,14 @@ def main_menu():
             game_list = edit_menu(game_list)
         elif status == "d":
             game_list = delete_menu(game_list)
+        elif status == "s":
+            write_file(game_list)
         elif status == "q":
             break
 
 
 def game_manager(game_list) -> "Game List":
+    """ This loop manages adding games and is responsible for handing the updated list back to the main menu """
     while True:
         print("\nWould you like to add a game?\nType \"y\" for yes and \"n\" for no\n")
         status = input()
@@ -53,6 +48,7 @@ def game_manager(game_list) -> "Game List":
 
 
 def add_game(game_list: "Game List") -> "Game List":
+    """ This function takes the Game List and add a game based on data given by the user """
     g_name = input("\nEnter game name\n")
     g_status = finish_status()
     new_game = Game(g_name, g_status)
@@ -61,7 +57,8 @@ def add_game(game_list: "Game List") -> "Game List":
 
 
 def print_games(game_list: "Game List"):
-    print("Enter 1 to print all games\nEnter 2 to print beaten games\nEnter 3 to print unbeaten games")
+    """ Gives the user various ways to print from the Game List """
+    print("\nEnter 1 to print all games\nEnter 2 to print beaten games\nEnter 3 to print unbeaten games")
     command = input()
     if command == '1':
         print("\nHere are all the games you added:\n")
@@ -82,6 +79,7 @@ def print_games(game_list: "Game List"):
 
 
 def finish_status() -> bool:
+    """ This function asks the user if they have beaten a game and passes the appropriate boolean """
     print("Have you beaten this game? Enter \"y\" for yes and \"n\" for no")
     while True:
         status = input()
@@ -94,8 +92,9 @@ def finish_status() -> bool:
 
 
 def edit_menu(game_list: "Game List") -> "Game List":
+    """ This function handles editing an entry on the list """
     if not game_list:
-        print("Emtpy list, returning to MAIN MENU")
+        print("\nEmtpy list, returning to MAIN MENU")
         return game_list
     status = input("Enter the name of the game you want to edit")
     position = find_game(game_list, status)
@@ -113,8 +112,9 @@ def edit_menu(game_list: "Game List") -> "Game List":
 
 
 def delete_menu(game_list: "Game List") -> "Game List":
+    """ This function deleting editing an entry on the list """
     if not game_list:
-        print("Emtpy list, returning to MAIN MENU")
+        print("\nEmtpy list, returning to MAIN MENU")
         return game_list
     status = input("Enter the name of the game you want to delete")
     position = find_game(game_list, status)
@@ -129,6 +129,7 @@ def delete_menu(game_list: "Game List") -> "Game List":
 
 
 def find_game(game_list, g_name):
+    """ This function find a game in the list and returns its index """
     result = -1
     for i in range(len(game_list)):
         if game_list[i].name == g_name:
@@ -136,6 +137,43 @@ def find_game(game_list, g_name):
             break
     return result
 
+
+def load_file() -> "Game List":
+    """ Asks the user if they want to load the list from a file, if not, does nothing"""
+    print("Would you like to load a Game Log from a file?\n"
+          "Type \"y\" for yes and \"n\" for no\n")
+    while True:
+        status = input()
+        if status == 'n':
+            return []
+        elif status == 'y':
+            game_list = file_reader()
+            return game_list
+        else:
+            print("Invalid entry, please try again...")
+
+
+def file_reader() -> "Game List":
+    """ Interprets text file and creates list """
+    print("\nLoading from file")
+    glist = []
+    infile = open("Saved_Log.txt", "r")
+    for line in infile:
+        entries = line.split('\t')
+        glist.append(Game(entries[0], entries[1]))
+    print("Load Successful\n")
+    return glist
+
+
+def write_file(game_list: "Game List"):
+    """ Writes list data to file """
+    print("\nWriting to file")
+    outfile = open("Saved_Log.txt", "w")
+    for i in game_list:
+        outfile.write(i.get_name() + '\t' + i.status_to_str() + '\n')
+    outfile.close()
+    print("Write Successful\n")
+    return
 
 
 
