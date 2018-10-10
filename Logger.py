@@ -51,14 +51,16 @@ def add_game(game_list: "Game List") -> "Game List":
     """ This function takes the Game List and add a game based on data given by the user """
     g_name = input("\nEnter game name\n")
     g_status = finish_status()
-    new_game = Game(g_name, g_status)
+    g_console = input("Enter game console played on\n")
+    new_game = Game(g_name, g_status, g_console)
     game_list.append(new_game)
     return game_list
 
 
 def print_games(game_list: "Game List"):
     """ Gives the user various ways to print from the Game List """
-    print("\nEnter 1 to print all games\nEnter 2 to print beaten games\nEnter 3 to print unbeaten games")
+    print("\nEnter 1 to print all games\nEnter 2 to print beaten games\n"
+          "Enter 3 to print unbeaten games\nEnter 4 to print games by console played on")
     command = input()
     if command == '1':
         print("\nHere are all the games you added:\n")
@@ -73,6 +75,11 @@ def print_games(game_list: "Game List"):
         print("\nHere all the games you haven't beaten\n")
         for i in game_list:
             if not i.get_status():
+                print(i.get_name())
+    elif command == '4':
+        target_console = input("Enter console to search for\n")
+        for i in game_list:
+            if i.get_console() == target_console:
                 print(i.get_name())
     else:
         print("\nInvalid input, returning to MAIN MENU")
@@ -104,8 +111,10 @@ def edit_menu(game_list: "Game List") -> "Game List":
         print("Game found\n" + game_list[position].get_name())
         g_name = input("\nEnter game name\n")
         g_status = finish_status()
+        g_console = input("\nEnter game console played on\n")
         game_list[position].set_name(g_name)
         game_list[position].set_status(g_status)
+        game_list[position].set_console(g_console)
         print("Game data changed\n" + game_list[position].get_name())
         print("Returning to MAIN MENU")
         return game_list
@@ -157,10 +166,14 @@ def file_reader() -> "Game List":
     """ Interprets text file and creates list """
     print("\nLoading from file")
     glist = []
-    infile = open("Saved_Log.txt", "r")
+    try:
+        infile = open("Saved_Log.txt", "r")
+    except FileNotFoundError:
+        print("No valid save file detected, returning to MAIN MENU\n")
+        return
     for line in infile:
         entries = line.split('\t')
-        glist.append(Game(entries[0], entries[1]))
+        glist.append(Game(entries[0], entries[1], entries[2]))
     print("Load Successful\n")
     return glist
 
@@ -168,9 +181,12 @@ def file_reader() -> "Game List":
 def write_file(game_list: "Game List"):
     """ Writes list data to file """
     print("\nWriting to file")
+    if not game_list:
+        print("No data to save, save cancelled, returning to MAIN MENU")
+        return
     outfile = open("Saved_Log.txt", "w")
     for i in game_list:
-        outfile.write(i.get_name() + '\t' + i.status_to_str() + '\n')
+        outfile.write(i.get_name() + '\t' + i.status_to_str() + '\t' + i.get_console() + '\n')
     outfile.close()
     print("Write Successful\n")
     return
