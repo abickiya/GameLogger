@@ -12,7 +12,7 @@ def main_loop():
 
 
 def main_menu():
-    """ Main Menu where user can access all of program's functions"""
+    """ Main Menu where user can access all of programs functions"""
     game_list = load_file()
     while True:
         print("\nMAIN MENU\nType \"p\" to see print options")
