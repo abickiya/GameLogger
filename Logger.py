@@ -60,7 +60,8 @@ def add_game(game_list: "Game List") -> "Game List":
 def print_games(game_list: "Game List"):
     """ Gives the user various ways to print from the Game List """
     print("\nEnter 1 to print all games\nEnter 2 to print beaten games\n"
-          "Enter 3 to print unbeaten games\nEnter 4 to print games by console played on")
+          "Enter 3 to print unbeaten games\nEnter 4 to print games by console played on\n"
+          "Enter 5 for detailed entry on one game\n")
     command = input()
     if command == '1':
         print("\nHere are all the games you added:\n")
@@ -81,6 +82,14 @@ def print_games(game_list: "Game List"):
         for i in game_list:
             if i.get_console() == target_console:
                 print(i.get_name())
+    elif command == '5':
+        target = input("Please enter the game you would like to search for\n")
+        position = find_game(game_list, target)
+        if position == -1:
+            print("\nGame not found, returning to MAIN MENU")
+        else:
+            print("\nName: " + game_list[position].get_name() + "\nBeaten: " + game_list[position].status_to_str()
+                  + "\nConsole: " + game_list[position].get_console())
     else:
         print("\nInvalid input, returning to MAIN MENU")
 
