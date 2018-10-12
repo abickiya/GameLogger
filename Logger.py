@@ -1,4 +1,4 @@
-""" This program will run the logger """
+""" This file defines Logger methods """
 
 from Game import Game
 import sys
@@ -201,5 +201,5 @@ def write_file(game_list: "Game List"):
     return
 
 
-
-main_loop()
+if __name__ == '__main__':
+    main_loop()
