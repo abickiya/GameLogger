@@ -4,8 +4,27 @@ from Game import Game
 from Logger import *
 import tkinter
 
-class Logger_GUI:
-    """ """
+
+class Add_window:
+
+    def __init__(self) -> None:
+        self.dialog_window = tkinter.Toplevel()
+        name_label = tkinter.Label(master=self.dialog_window, text='Game Name',
+                                   font=('Helvetica', 15), pady=5, padx=3)
+        name_label.grid(column=0, row=0, sticky=tkinter.W)
+
+        status_label = tkinter.Label(master=self.dialog_window,text='Completion Status',
+                                     font=('Helvetica', 15), pady=5, padx=3)
+        status_label.grid(column=0, row=1, sticky=tkinter.W)
+
+        system_label = tkinter.Label(master=self.dialog_window, text='System owned on',
+                                     font=('Helvetica', 15), pady=5, padx=3)
+        system_label.grid(column=0, row=2, sticky=tkinter.W)
+
+
+
+class Logger_gui:
+    """ Class governing the main Game Logger Interface """
 
     def __init__(self) -> None:
         self.game_list = []
@@ -44,7 +63,7 @@ class Logger_GUI:
 
     def draw_controls(self) -> None:
         self.add_option = tkinter.Button(master=self.root, text='ADD', height=2, width=10,
-                                         command=self.dummy)
+                                         command=self.add_pressed)
         self.delete_option = tkinter.Button(master=self.root, text='DELETE', height=2, width=10,
                                             command=self.dummy)
         self.edit_option = tkinter.Button(master=self.root, text='EDIT', height=2, width=10,
@@ -53,9 +72,13 @@ class Logger_GUI:
         self.delete_option.place(relx=.95, rely=.40, anchor='e')
         self.edit_option.place(relx=.95, rely=.55, anchor='e')
 
+    def add_pressed(self) -> None:
+        adder = Add_window()
+        print("add pressed")
+
     def dummy(self):
         print("Hello World")
 
 
-game = Logger_GUI()
+game = Logger_gui()
 game.run()
