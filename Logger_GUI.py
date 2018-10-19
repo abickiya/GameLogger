@@ -16,19 +16,18 @@ class Logger_GUI:
         self.canvas.grid()
         self.draw_entry()
 
+    def run(self) -> None:
+        self.root.mainloop()
+
     def draw_entry(self) -> None:
         self.welcome_label = tkinter.Label(master=self.root, text="Welcome to the Game Logger!", font=('Helvetica', 25))
         self.load_option = tkinter.Button(master=self.root, text='Load from a file', height=5, width=15,
                                           command=self.load_pressed)
         self.new_option = tkinter.Button(master=self.root, text='Start a new list', height=5, width=15,
                                          command=self.new_pressed)
-
         self.welcome_label.grid(column=0, row=0, sticky=tkinter.N)
         self.load_option.place(relx=.35, rely=.5, anchor='center')
         self.new_option.place(relx=.65, rely=.5, anchor='center')
-
-    def run(self) -> None:
-        self.root.mainloop()
 
     def load_pressed(self) -> None:
         self.load_option.destroy()
@@ -44,7 +43,18 @@ class Logger_GUI:
         self.draw_controls()
 
     def draw_controls(self) -> None:
-        print("Hello")
+        self.add_option = tkinter.Button(master=self.root, text='ADD', height=2, width=10,
+                                         command=self.dummy)
+        self.delete_option = tkinter.Button(master=self.root, text='DELETE', height=2, width=10,
+                                            command=self.dummy)
+        self.edit_option = tkinter.Button(master=self.root, text='EDIT', height=2, width=10,
+                                          command=self.dummy)
+        self.add_option.place(relx=.95, rely=.25, anchor='e')
+        self.delete_option.place(relx=.95, rely=.40, anchor='e')
+        self.edit_option.place(relx=.95, rely=.55, anchor='e')
+
+    def dummy(self):
+        print("Hello World")
 
 
 game = Logger_GUI()
