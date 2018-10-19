@@ -83,7 +83,7 @@ def print_games(game_list: "Game List"):
             if i.get_console() == target_console:
                 print(i.get_name())
     elif command == '5':
-        target = input("Please enter the game you would like to search for\n")
+        target = input("Please enter the game you would like to search for.\n")
         position = find_game(game_list, target)
         if position == -1:
             print("\nGame not found, returning to MAIN MENU")

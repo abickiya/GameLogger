@@ -1,4 +1,4 @@
-""" This file defines a game object """
+""" This file defines a game object. """
 
 
 class Game:
