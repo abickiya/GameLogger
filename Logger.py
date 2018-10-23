@@ -52,6 +52,12 @@ def add_game(game_list: "Game List") -> "Game List":
     g_name = input("\nEnter game name\n")
     g_status = finish_status()
     g_console = input("Enter game console played on\n")
+    game_list = finish_add(game_list, g_name, g_status, g_console)
+    return game_list
+
+
+def finish_add(game_list: "Game List", g_name: "String", g_status: bool, g_console: "String") -> "Game List":
+    """This function finishes the adding proccess, built to work with GUI"""
     new_game = Game(g_name, g_status, g_console)
     game_list.append(new_game)
     return game_list
