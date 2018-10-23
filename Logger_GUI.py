@@ -5,25 +5,63 @@ from Logger import *
 import tkinter
 
 
-class Add_window:
+class Add_Window:
 
     def __init__(self) -> None:
         self.dialog_window = tkinter.Toplevel()
+        self.dialog_window.columnconfigure(1, weight=1, minsize=40)
+        self.dialog_window.columnconfigure(0, weight=1)
+        self.accept_flag = False
+
         name_label = tkinter.Label(master=self.dialog_window, text='Game Name',
                                    font=('Helvetica', 15), pady=5, padx=3)
         name_label.grid(column=0, row=0, sticky=tkinter.W)
 
-        status_label = tkinter.Label(master=self.dialog_window,text='Completion Status',
+        status_label = tkinter.Label(master=self.dialog_window, text='Completion Status',
                                      font=('Helvetica', 15), pady=5, padx=3)
         status_label.grid(column=0, row=1, sticky=tkinter.W)
 
-        system_label = tkinter.Label(master=self.dialog_window, text='System owned on',
+        system_label = tkinter.Label(master=self.dialog_window, text='System Owned On',
                                      font=('Helvetica', 15), pady=5, padx=3)
         system_label.grid(column=0, row=2, sticky=tkinter.W)
 
+        self.name_entry = tkinter.Entry(master=self.dialog_window, width=22)
+        self.name_entry.grid(column=2, row=0, sticky=tkinter.E)
+
+        self.status_entry = tkinter.Spinbox(master=self.dialog_window, values=("Beaten", "Unbeaten"))
+        self.status_entry.grid(column=2, row=1, sticky=tkinter.E)
+
+        self.system_entry = tkinter.Entry(master=self.dialog_window, width=22)
+        self.system_entry.grid(column=2, row=2, sticky=tkinter.E)
+
+        ok_button = tkinter.Button(master=self.dialog_window, text='Accept', height=2, width=7,
+                                   command=self.accept_pressed)
+        ok_button.grid(column=3, row=4, sticky=tkinter.S)
+
+        cancel_button = tkinter.Button(master=self.dialog_window, text='Cancel', height=2, width=7,
+                                       command=self.close_window)
+        cancel_button.grid(column=4, row=4, sticky=tkinter.S)
+
+    def show(self) -> None:
+        self.dialog_window.grab_set()
+        self.dialog_window.wait_window()
+
+    def accept_pressed(self) -> None:
+        self.accept_flag = True
+        self.name = self.name_entry.get()
+        self.status = False
+        if self.status_entry.get() == "Beaten":
+            self.status = True
+        self.system = self.system_entry.get()
+        self.close_window()
+
+    def close_window(self) -> None:
+        self.dialog_window.destroy()
 
 
-class Logger_gui:
+
+
+class Logger_GUI:
     """ Class governing the main Game Logger Interface """
 
     def __init__(self) -> None:
@@ -73,12 +111,16 @@ class Logger_gui:
         self.edit_option.place(relx=.95, rely=.55, anchor='e')
 
     def add_pressed(self) -> None:
-        adder = Add_window()
-        print("add pressed")
+        adder = Add_Window()
+        adder.show()
+        if adder.accept_flag:
+            self.game_list = finish_add(self.game_list, adder.name, adder.status, adder.system)
+        for x in self.game_list:
+            print(x.get_name())
 
     def dummy(self):
-        print("Hello World")
+        print("hello")
 
 
-game = Logger_gui()
+game = Logger_GUI()
 game.run()
