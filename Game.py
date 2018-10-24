@@ -20,11 +20,14 @@ class Game:
     def status_to_str(self) -> "String":
         return str(self.status)
 
-    def set_name(self, new_name):
+    def set_name(self, new_name) -> None:
         self.name = new_name
 
-    def set_status(self, new_status):
+    def set_status(self, new_status)-> None:
         self.status = new_status
 
-    def set_console(self, new_console):
+    def set_console(self, new_console)-> None:
         self.console = new_console
+
+    def __str__(self):
+            return "{:40}{:10}{:10}".format(self.name, self.status, self.console)
