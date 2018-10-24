@@ -201,7 +201,7 @@ def write_file(game_list: "Game List"):
         return
     outfile = open("Saved_Log.txt", "w")
     for i in game_list:
-        outfile.write(i.get_name() + '\t' + i.status_to_str() + '\t' + i.get_console() + '\n')
+        outfile.write(i.get_name() + '\t' + i.status_to_str() + '\t' + i.get_console() + '\t\n')
     outfile.close()
     print("Write Successful\n")
     return

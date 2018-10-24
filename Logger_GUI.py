@@ -106,9 +106,12 @@ class Logger_GUI:
                                             command=self.dummy)
         self.edit_option = tkinter.Button(master=self.root, text='EDIT', height=2, width=10,
                                           command=self.dummy)
-        self.add_option.place(relx=.95, rely=.25, anchor='e')
-        self.delete_option.place(relx=.95, rely=.40, anchor='e')
-        self.edit_option.place(relx=.95, rely=.55, anchor='e')
+        self.save_option = tkinter.Button(master=self.root, text='SAVE', height=2, width=10,
+                                          command=self.save_pressed)
+        self.add_option.place(relx=.95, rely=.30, anchor='e')
+        self.delete_option.place(relx=.95, rely=.45, anchor='e')
+        self.edit_option.place(relx=.95, rely=.60, anchor='e')
+        self.save_option.place(relx=.95, rely=.15, anchor='e')
 
     def add_pressed(self) -> None:
         adder = Add_Window()
@@ -118,9 +121,15 @@ class Logger_GUI:
         for x in self.game_list:
             print(x.get_name())
 
+    def save_pressed(self) -> None:
+        write_file(self.game_list)
+
     def dummy(self):
         print("hello")
 
 
 game = Logger_GUI()
 game.run()
+
+
+""" FIX THE SAVING FIRST THING """
