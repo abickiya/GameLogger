@@ -108,24 +108,31 @@ class Logger_GUI:
                                           command=self.dummy)
         self.save_option = tkinter.Button(master=self.root, text='SAVE', height=2, width=10,
                                           command=self.save_pressed)
+        self.draw_list()
         self.add_option.place(relx=.95, rely=.30, anchor='e')
         self.delete_option.place(relx=.95, rely=.45, anchor='e')
         self.edit_option.place(relx=.95, rely=.60, anchor='e')
         self.save_option.place(relx=.95, rely=.15, anchor='e')
+    
+    def draw_list(self) -> None:
+        self.list_display = tkinter.Listbox(master=self.root, width=50, height=25)
+        for x in self.game_list:
+            self.list_display.insert(tkinter.END, x.get_name())
+        self.list_display.place(relx=.1, rely=.1)
 
     def add_pressed(self) -> None:
         adder = Add_Window()
         adder.show()
         if adder.accept_flag:
             self.game_list = finish_add(self.game_list, adder.name, adder.status, adder.system)
-        for x in self.game_list:
-            print(x.get_name())
+            self.list_display.destroy()
+            self.draw_list()
 
     def save_pressed(self) -> None:
         write_file(self.game_list)
 
     def dummy(self):
-        print("hello")
+        print("celtics suck")
 
 
 game = Logger_GUI()
