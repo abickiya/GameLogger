@@ -60,6 +60,7 @@ def finish_add(game_list: "Game List", g_name: "String", g_status: bool, g_conso
     """This function finishes the adding proccess, built to work with GUI"""
     new_game = Game(g_name, g_status, g_console)
     game_list.append(new_game)
+    game_list.sort(key=Game.get_name_lower)
     return game_list
 
 
@@ -187,8 +188,8 @@ def file_reader() -> "Game List":
         print("No valid save file detected, returning to MAIN MENU\n")
         return
     for line in infile:
-        entries = line.split('\t')
-        glist.append(Game(entries[0], entries[1], entries[2]))
+        entries = line.split('**')
+        glist.append(Game(entries[0], entries[1], entries[2].strip('\n')))
     print("Load Successful\n")
     return glist
 
@@ -201,7 +202,7 @@ def write_file(game_list: "Game List"):
         return
     outfile = open("Saved_Log.txt", "w")
     for i in game_list:
-        outfile.write(i.get_name() + '\t' + i.status_to_str() + '\t' + i.get_console() + '\t\n')
+        outfile.write(i.get_name() + '**' + i.status_to_str() + '**' + i.get_console() + '\n')
     outfile.close()
     print("Write Successful\n")
     return
