@@ -11,6 +11,9 @@ class Game:
     def get_name(self) -> "String":
         return self.name
 
+    def get_name_lower(self) -> "String":
+        return self.name.lower()
+
     def get_status(self) -> bool:
         return self.status
 
