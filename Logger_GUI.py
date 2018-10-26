@@ -67,7 +67,9 @@ class Logger_GUI:
     def __init__(self) -> None:
         self.game_list = []
         self.root = tkinter.Tk()
-        self.root.columnconfigure(0, weight=1)
+        self.root.columnconfigure(0, weight=1, minsize=1)
+        self.root.columnconfigure(1, weight=1)
+        self.root.columnconfigure(2, weight=1)
         self.root.rowconfigure(0, weight=1)
         self.canvas = tkinter.Canvas(master=self.root, width=500, height=500)
         self.canvas.grid()
@@ -108,17 +110,24 @@ class Logger_GUI:
                                           command=self.dummy)
         self.save_option = tkinter.Button(master=self.root, text='SAVE', height=2, width=10,
                                           command=self.save_pressed)
+        self.view_option = tkinter.Button(master=self.root, text='VIEW', height=2, width=10,
+                                          command=self.dummy)
         self.draw_list()
-        self.add_option.place(relx=.95, rely=.30, anchor='e')
-        self.delete_option.place(relx=.95, rely=.45, anchor='e')
-        self.edit_option.place(relx=.95, rely=.60, anchor='e')
-        self.save_option.place(relx=.95, rely=.15, anchor='e')
-    
+        self.add_option.place(relx=.92, rely=.30, anchor='e')
+        self.delete_option.place(relx=.92, rely=.45, anchor='e')
+        self.edit_option.place(relx=.92, rely=.60, anchor='e')
+        self.save_option.place(relx=.92, rely=.15, anchor='e')
+        self.view_option.place(relx=.92, rely=.75, anchor='e')
+
     def draw_list(self) -> None:
         self.list_display = tkinter.Listbox(master=self.root, width=50, height=25)
         for x in self.game_list:
             self.list_display.insert(tkinter.END, x.get_name())
+        self.scrollbar = tkinter.Scrollbar(self.root, orient=tkinter.VERTICAL)
+        self.scrollbar.config(command=self.list_display.yview)
+        self.list_display.config(yscrollcommand=self.scrollbar.set)
         self.list_display.place(relx=.1, rely=.1)
+        self.scrollbar.grid(row=0, column=2, sticky="ns")
 
     def add_pressed(self) -> None:
         adder = Add_Window()
