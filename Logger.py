@@ -57,7 +57,7 @@ def add_game(game_list: "Game List") -> "Game List":
 
 
 def finish_add(game_list: "Game List", g_name: "String", g_status: bool, g_console: "String") -> "Game List":
-    """This function finishes the adding proccess, built to work with GUI"""
+    """ This function finishes the adding process, built to work with GUI"""
     new_game = Game(g_name, g_status, g_console)
     game_list.append(new_game)
     game_list.sort(key=Game.get_name_lower)
