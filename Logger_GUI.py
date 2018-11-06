@@ -52,7 +52,7 @@ class Logger_GUI:
         self.delete_option = tkinter.Button(master=self.root, text='DELETE', height=2, width=10,
                                             command=self.delete_pressed)
         self.edit_option = tkinter.Button(master=self.root, text='EDIT', height=2, width=10,
-                                          command=self.dummy)
+                                          command=self.edit_pressed)
         self.save_option = tkinter.Button(master=self.root, text='SAVE', height=2, width=10,
                                           command=self.save_pressed)
         self.view_option = tkinter.Button(master=self.root, text='VIEW', height=2, width=10,
@@ -101,11 +101,22 @@ class Logger_GUI:
         self.list_display.destroy()
         self.draw_list()
 
+    def edit_pressed(self) -> None:
+        try:
+            selected = self.list_display.get(self.list_display.curselection())
+        except tkinter.TclError:
+            return
+        changer = Edit_Window(selected)
+        changer.show()
+        if changer.accept_flag:
+            g_index = find_game(self.game_list, selected)
+            self.game_list.pop(g_index)
+            self.game_list = finish_add(self.game_list, changer.name, changer.status, changer.system)
+            self.list_display.destroy()
+            self.draw_list()
+
     def save_pressed(self) -> None:
         write_file(self.game_list)
-
-    def dummy(self):
-        print("celtics suck")
 
 
 game = Logger_GUI()
