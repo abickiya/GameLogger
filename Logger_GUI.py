@@ -2,63 +2,8 @@
 
 from Game import Game
 from Logger import *
+from GUI_Windows import *
 import tkinter
-
-
-class Add_Window:
-
-    def __init__(self) -> None:
-        self.dialog_window = tkinter.Toplevel()
-        self.dialog_window.columnconfigure(1, weight=1, minsize=40)
-        self.dialog_window.columnconfigure(0, weight=1)
-        self.accept_flag = False
-
-        name_label = tkinter.Label(master=self.dialog_window, text='Game Name',
-                                   font=('Helvetica', 15), pady=5, padx=3)
-        name_label.grid(column=0, row=0, sticky=tkinter.W)
-
-        status_label = tkinter.Label(master=self.dialog_window, text='Completion Status',
-                                     font=('Helvetica', 15), pady=5, padx=3)
-        status_label.grid(column=0, row=1, sticky=tkinter.W)
-
-        system_label = tkinter.Label(master=self.dialog_window, text='System Owned On',
-                                     font=('Helvetica', 15), pady=5, padx=3)
-        system_label.grid(column=0, row=2, sticky=tkinter.W)
-
-        self.name_entry = tkinter.Entry(master=self.dialog_window, width=22)
-        self.name_entry.grid(column=2, row=0, sticky=tkinter.E)
-
-        self.status_entry = tkinter.Spinbox(master=self.dialog_window, values=("Beaten", "Unbeaten"))
-        self.status_entry.grid(column=2, row=1, sticky=tkinter.E)
-
-        self.system_entry = tkinter.Entry(master=self.dialog_window, width=22)
-        self.system_entry.grid(column=2, row=2, sticky=tkinter.E)
-
-        ok_button = tkinter.Button(master=self.dialog_window, text='Accept', height=2, width=7,
-                                   command=self.accept_pressed)
-        ok_button.grid(column=3, row=4, sticky=tkinter.S)
-
-        cancel_button = tkinter.Button(master=self.dialog_window, text='Cancel', height=2, width=7,
-                                       command=self.close_window)
-        cancel_button.grid(column=4, row=4, sticky=tkinter.S)
-
-    def show(self) -> None:
-        self.dialog_window.grab_set()
-        self.dialog_window.wait_window()
-
-    def accept_pressed(self) -> None:
-        self.accept_flag = True
-        self.name = self.name_entry.get()
-        self.status = False
-        if self.status_entry.get() == "Beaten":
-            self.status = True
-        self.system = self.system_entry.get()
-        self.close_window()
-
-    def close_window(self) -> None:
-        self.dialog_window.destroy()
-
-
 
 
 class Logger_GUI:
@@ -111,13 +56,13 @@ class Logger_GUI:
         self.save_option = tkinter.Button(master=self.root, text='SAVE', height=2, width=10,
                                           command=self.save_pressed)
         self.view_option = tkinter.Button(master=self.root, text='VIEW', height=2, width=10,
-                                          command=self.dummy)
+                                          command=self.view_pressed)
         self.draw_list()
+        self.view_option.place(relx=.92, rely=.15, anchor='e')
         self.add_option.place(relx=.92, rely=.30, anchor='e')
-        self.delete_option.place(relx=.92, rely=.45, anchor='e')
-        self.edit_option.place(relx=.92, rely=.60, anchor='e')
-        self.save_option.place(relx=.92, rely=.15, anchor='e')
-        self.view_option.place(relx=.92, rely=.75, anchor='e')
+        self.edit_option.place(relx=.92, rely=.45, anchor='e')
+        self.delete_option.place(relx=.92, rely=.60, anchor='e')
+        self.save_option.place(relx=.92, rely=.75, anchor='e')
 
     def draw_list(self) -> None:
         self.list_display = tkinter.Listbox(master=self.root, width=50, height=25)
@@ -128,6 +73,15 @@ class Logger_GUI:
         self.list_display.config(yscrollcommand=self.scrollbar.set)
         self.list_display.place(relx=.1, rely=.1)
         self.scrollbar.grid(row=0, column=2, sticky="ns")
+
+    def view_pressed(self) -> None:
+        try:
+            selected = self.list_display.get(self.list_display.curselection())
+        except tkinter.TclError:
+            return
+        g_index = find_game(self.game_list, selected)
+        viewer = View_Window(self.game_list[g_index])
+        viewer.show()
 
     def add_pressed(self) -> None:
         adder = Add_Window()
@@ -147,5 +101,3 @@ class Logger_GUI:
 game = Logger_GUI()
 game.run()
 
-
-""" FIX THE SAVING FIRST THING """
